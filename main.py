@@ -127,7 +127,7 @@ if __name__ == "__main__":
             private_key=private_key,
             function_args=(
                 "0x4554480000000000000000000000000000000000000000000000000000000000",
-                issue_amount, # Feel free to change it to any amount you want, if you want to test liquidation functionality of the protocol.
+                int(issue_amount//1e8), # Feel free to change it to any amount you want, if you want to test liquidation functionality of the protocol.
                 "0x4c617965725a65726f0000000000000000000000000000000000000000000000",
                 0,
                 False
