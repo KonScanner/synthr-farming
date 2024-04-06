@@ -1,0 +1,1078 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "contract ExternWrappedStateToken",
+                "name": "_extTokenState",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_owner",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_resolver",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "synthRedeemed",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountLiquidated",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "liquidator",
+                "type": "address"
+            }
+        ],
+        "name": "AccountLiquidated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "name",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "destination",
+                "type": "address"
+            }
+        ],
+        "name": "CacheUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "currencyKey",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "synthAmount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "debtShare",
+                "type": "uint256"
+            }
+        ],
+        "name": "DestBurn",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "message",
+                "type": "string"
+            }
+        ],
+        "name": "DestBurnFailed",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "marketKey",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "marginDelta",
+                "type": "uint256"
+            }
+        ],
+        "name": "DestTransferMargin",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "message",
+                "type": "string"
+            }
+        ],
+        "name": "DestTransferMarginFailed",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "oldOwner",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnerChanged",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnerNominated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "from",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "collateralKey",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "collateralAmount",
+                "type": "uint256"
+            }
+        ],
+        "name": "StakeCollateral",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "from",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+            }
+        ],
+        "name": "Transfer",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "from",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "collateralKey",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "collateralCurrency",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "collateralAmount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint16",
+                "name": "destChainId",
+                "type": "uint16"
+            }
+        ],
+        "name": "WithdrawCollateral",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "CONTRACT_NAME",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "acceptOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "synthKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "bridgeName",
+                "type": "bytes32"
+            }
+        ],
+        "name": "burnSynths",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "synthKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "bridgeName",
+                "type": "bytes32"
+            }
+        ],
+        "name": "burnSynthsToTarget",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_account",
+                "type": "address"
+            },
+            {
+                "internalType": "uint16",
+                "name": "_destChainId",
+                "type": "uint16"
+            }
+        ],
+        "name": "chainBalanceOf",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_account",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_collateralKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "_destChainId",
+                "type": "uint16"
+            }
+        ],
+        "name": "chainBalanceOfPerKey",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_collateralKey",
+                "type": "bytes32"
+            }
+        ],
+        "name": "collateralCurrency",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_account",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_synthKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_synthAmount",
+                "type": "uint256"
+            }
+        ],
+        "name": "destBurn",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_account",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_marginDelta",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_marketKey",
+                "type": "bytes32"
+            }
+        ],
+        "name": "destTransferMargin",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "sourceCurrencyKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "sourceAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "destinationCurrencyKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "destChainId",
+                "type": "uint16"
+            },
+            {
+                "internalType": "bool",
+                "name": "erc20Payment",
+                "type": "bool"
+            }
+        ],
+        "name": "exchange",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "amountReceived",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "sourceCurrencyKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "sourceAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "destinationCurrencyKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "minAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "destChainId",
+                "type": "uint16"
+            },
+            {
+                "internalType": "bool",
+                "name": "erc20Payment",
+                "type": "bool"
+            }
+        ],
+        "name": "exchangeAtomically",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "amountReceived",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAvailableCollaterals",
+        "outputs": [
+            {
+                "internalType": "bytes32[]",
+                "name": "",
+                "type": "bytes32[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_account",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_collateralKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_collateralAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "_destChainId",
+                "type": "uint16"
+            }
+        ],
+        "name": "getSendWithdrawGasFee",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "initializeLiquidatorRewardsRestitution",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "isResolverCached",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "currencyKey",
+                "type": "bytes32"
+            }
+        ],
+        "name": "isWaitingPeriod",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "_destChainId",
+                "type": "uint16"
+            },
+            {
+                "internalType": "bool",
+                "name": "erc20Payment",
+                "type": "bool"
+            }
+        ],
+        "name": "issueMaxSynths",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_collateralKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_collateralAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_synthToMint",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "_destChainId",
+                "type": "uint16"
+            },
+            {
+                "internalType": "bool",
+                "name": "erc20Payment",
+                "type": "bool"
+            }
+        ],
+        "name": "issueSynths",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "collateralKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "destChainId",
+                "type": "uint16"
+            },
+            {
+                "internalType": "bool",
+                "name": "erc20Payment",
+                "type": "bool"
+            }
+        ],
+        "name": "liquidateDelinquentAccount",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "collateralKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "destChainId",
+                "type": "uint16"
+            },
+            {
+                "internalType": "bool",
+                "name": "erc20Payment",
+                "type": "bool"
+            }
+        ],
+        "name": "liquidateSelf",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "name",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_owner",
+                "type": "address"
+            }
+        ],
+        "name": "nominateNewOwner",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "nominatedOwner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "sourceCurrencyKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "sourceAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "destinationCurrencyKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes[]",
+                "name": "priceUpdateData",
+                "type": "bytes[]"
+            },
+            {
+                "internalType": "uint16",
+                "name": "destChainId",
+                "type": "uint16"
+            },
+            {
+                "internalType": "bool",
+                "name": "erc20Payment",
+                "type": "bool"
+            }
+        ],
+        "name": "offChainExchange",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "amountReceived",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "rebuildCache",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "resolver",
+        "outputs": [
+            {
+                "internalType": "contract AddressResolver",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "resolverAddressesRequired",
+        "outputs": [
+            {
+                "internalType": "bytes32[]",
+                "name": "addresses",
+                "type": "bytes32[]"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "restituted",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "sUSD",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "currencyKey",
+                "type": "bytes32"
+            }
+        ],
+        "name": "settle",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "reclaimed",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "refunded",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "numEntriesSettled",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_collateralKey",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_collateralAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_bridgeName",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint16",
+                "name": "_destChainId",
+                "type": "uint16"
+            },
+            {
+                "internalType": "bool",
+                "name": "_erc20Payment",
+                "type": "bool"
+            }
+        ],
+        "name": "withdrawCollateral",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "stateMutability": "payable",
+        "type": "receive"
+    }
+]
