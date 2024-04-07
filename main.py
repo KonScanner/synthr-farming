@@ -136,7 +136,8 @@ if __name__ == "__main__":
                 "0x4554480000000000000000000000000000000000000000000000000000000000",
                 int(
                     issue_amount // 1e8
-                ),  # Feel free to change it to any amount you want, if you want to test liquidation functionality of the protocol.
+                ),  # Feel free to change it to any amount you want,
+                # if you want to test liquidation functionality of the protocol.
                 "0x4c617965725a65726f0000000000000000000000000000000000000000000000",
                 0,
                 False,
@@ -144,7 +145,8 @@ if __name__ == "__main__":
         )
         time.sleep(GENEREAL_SLEEP_TIMER)
 
-        # Cross chain swap, you need lz_value (to add more fees), to change chainID, please test via UI to get the rest of arguments correctly.
+        # Cross chain swap, you need lz_value (to add more fees), to change chainID,
+        # please test via UI to get the rest of arguments correctly.
         build_and_send_transaction(
             web3_client=web3,
             contract_address=main_contract_address,
@@ -185,7 +187,8 @@ if __name__ == "__main__":
         )
         time.sleep(GENEREAL_SLEEP_TIMER)
 
-        # Bridge some sUSD to another chain, similar to cross chain swap, you need to test via UI to get the right arguments.
+        # Bridge some sUSD to another chain, similar to cross chain swap,
+        # you need to test via UI to get the right arguments.
         bridge_abi = read_abi(f"./abis/{bridge_contract}.json")
         bridge_amount = int(10 * 1e18) + random.randint(0, 10000000000)
         build_and_send_transaction(

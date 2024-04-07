@@ -1,10 +1,7 @@
 
 import time
 import logging
-from typing import Any
-from hexbytes import HexBytes
 import colorlog
-import logging
 
 from utils.constants import DEFAULT_GAS, DEFAULT_GAS_PRICE
 
@@ -40,6 +37,7 @@ def check_transaction_status(web3_client, txn_hash) -> int:
 
     # Check if the transaction was successful
     return int(txn_receipt["status"])
+
 
 def build_and_send_transaction(
     web3_client,
