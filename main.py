@@ -6,7 +6,7 @@ from web3.gas_strategies.rpc import rpc_gas_price_strategy
 import os
 from dotenv import load_dotenv
 
-from utils.actions import build_and_send_transaction
+from utils.actions import build_and_send_transaction, read_function_from_contract
 from utils.utils import read_abi
 from utils.constants import LZ_VALUE, GENEREAL_SLEEP_TIMER
 
@@ -27,6 +27,8 @@ if __name__ == "__main__":
     main_contract_address = "0xe0875CBD144Fe66C015a95E5B2d2C15c3b612179"
     faucet_address = "0xfb2c2196831DeEb8311d2CB4B646B94Ed5eCF684"
     bridge_contract = "0x2F1673beD3E85219E2B01BC988ABCc482261c38c"
+    eth_usd_chainlink_feed = "0xd30e2101a97dcbAeBCBC04F14C3f624E67A35165"
+    chainlink_abi = read_abi(f"./abis/{eth_usd_chainlink_feed}.json")
 
     running_total_diff = 0
     for _ in range(ACTION_MULTIPLIER):
@@ -168,6 +170,19 @@ if __name__ == "__main__":
         time.sleep(GENEREAL_SLEEP_TIMER)
 
         # Same chain swap
+        eth_usd_price = (
+            int(
+                read_function_from_contract(
+                    web3_client=web3,
+                    contract_address=eth_usd_chainlink_feed,
+                    function_name="latestAnswer",
+                    abi=chainlink_abi,
+                ).call()
+            )
+            / 1e8
+        )
+        usd_eth_price = 1 / eth_usd_price
+        amount_to_swap = 10
         build_and_send_transaction(
             web3_client=web3,
             contract_address=main_contract_address,
@@ -177,9 +192,10 @@ if __name__ == "__main__":
             private_key=private_key,
             function_args=(
                 "0x7355534400000000000000000000000000000000000000000000000000000000",
-                int(10 * 1e18),  # 10 sUSD
+                int(amount_to_swap * 1e18),  # 10 sUSD
                 "0x7345544800000000000000000000000000000000000000000000000000000000",
-                2871000000000000,  # 0.002871 ETH, tinker as price changes, this is an example.
+                int(usd_eth_price * amount_to_swap * 1e18)
+                - 68014044637676,  # min amount received, tinker as price changes, this is an example.
                 "0x4c617965725a65726f0000000000000000000000000000000000000000000000",
                 0,
                 False,
