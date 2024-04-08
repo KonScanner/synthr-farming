@@ -28,7 +28,9 @@ if __name__ == "__main__":
     faucet_address = "0xfb2c2196831DeEb8311d2CB4B646B94Ed5eCF684"
     bridge_contract = "0x2F1673beD3E85219E2B01BC988ABCc482261c38c"
     eth_usd_chainlink_feed = "0xd30e2101a97dcbAeBCBC04F14C3f624E67A35165"
+    main_abi = read_abi(f"./abis/{main_contract_address}.json")
     chainlink_abi = read_abi(f"./abis/{eth_usd_chainlink_feed}.json")
+    bridge_abi = read_abi(f"./abis/{bridge_contract}.json")
 
     running_total_diff = 0
     for _ in range(ACTION_MULTIPLIER):
@@ -69,7 +71,6 @@ if __name__ == "__main__":
         time.sleep(GENEREAL_SLEEP_TIMER)
 
         # Deposit Synthr faucet tokens
-        main_abi = read_abi(f"./abis/{main_contract_address}.json")
         build_and_send_transaction(
             web3_client=web3,
             contract_address=main_contract_address,
@@ -170,17 +171,13 @@ if __name__ == "__main__":
         time.sleep(GENEREAL_SLEEP_TIMER)
 
         # Same chain swap
-        eth_usd_price = (
-            int(
-                read_function_from_contract(
-                    web3_client=web3,
-                    contract_address=eth_usd_chainlink_feed,
-                    function_name="latestAnswer",
-                    abi=chainlink_abi,
-                ).call()
-            )
-            / 1e8
-        )
+        eth_usd_price_raw = read_function_from_contract(
+            web3_client=web3,
+            contract_address=eth_usd_chainlink_feed,
+            function_name="latestAnswer",
+            abi=chainlink_abi,
+        ).call()
+        eth_usd_price = int(eth_usd_price_raw) / 1e8 if eth_usd_price_raw != 0 else 0
         usd_eth_price = 1 / eth_usd_price
         amount_to_swap = 10
         build_and_send_transaction(
@@ -205,7 +202,6 @@ if __name__ == "__main__":
 
         # Bridge some sUSD to another chain, similar to cross chain swap,
         # you need to test via UI to get the right arguments.
-        bridge_abi = read_abi(f"./abis/{bridge_contract}.json")
         bridge_amount = int(10 * 1e18) + random.randint(0, 10000000000)
         build_and_send_transaction(
             web3_client=web3,
