@@ -82,3 +82,11 @@ def build_and_send_transaction(
         logging.error(
             f"{function_name} - Transaction failed: {scan_url}{txn_hash.hex()} with status: {status}"
         )
+
+
+def read_function_from_contract(web3_client, contract_address: str, function_name: str, abi: dict, *args):
+    contract = web3_client.eth.contract(
+        address=web3_client.to_checksum_address(contract_address), abi=abi
+    )
+
+    return contract.functions[function_name](*args)
