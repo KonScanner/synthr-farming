@@ -33,7 +33,8 @@ if __name__ == "__main__":
     bridge_abi = read_abi(f"./abis/{bridge_contract}.json")
 
     running_total_diff = 0
-    for _ in range(ACTION_MULTIPLIER):
+    amount_to_swap = 10
+    for c in range(ACTION_MULTIPLIER):
         initial_balance = web3.from_wei(web3.eth.get_balance(account_address), "ether")
         logging.info(f"Wallet balance: {initial_balance} ETH")
 
@@ -179,7 +180,6 @@ if __name__ == "__main__":
         ).call()
         eth_usd_price = int(eth_usd_price_raw) / 1e8 if eth_usd_price_raw != 0 else 0
         usd_eth_price = 1 / eth_usd_price
-        amount_to_swap = 10
         build_and_send_transaction(
             web3_client=web3,
             contract_address=main_contract_address,
@@ -198,29 +198,30 @@ if __name__ == "__main__":
                 False,
             ),
         )
-        time.sleep(GENEREAL_SLEEP_TIMER)
 
-        # Bridge some sUSD to another chain, similar to cross chain swap,
-        # you need to test via UI to get the right arguments.
-        bridge_amount = int(10 * 1e18) + random.randint(0, 10000000000)
-        build_and_send_transaction(
-            web3_client=web3,
-            contract_address=bridge_contract,
-            function_name="bridgeSynth",
-            abi=bridge_abi,
-            account_address=account_address,
-            private_key=private_key,
-            function_args=(
-                account_address,
-                "0x7355534400000000000000000000000000000000000000000000000000000000",
-                bridge_amount,
-                "0x4c617965725a65726f0000000000000000000000000000000000000000000000",
-                10106,
-                False,
-            ),
-            lz_value=LZ_VALUE,
-        )
-        time.sleep(GENEREAL_SLEEP_TIMER)
+        # Bridge only every % 10 == 0 iteration
+        if c % 10 == 0:
+            # Bridge some sUSD to another chain, similar to cross chain swap,
+            # you need to test via UI to get the right arguments.
+            bridge_amount = int(10 * 1e18) + random.randint(0, 10000000000)
+            build_and_send_transaction(
+                web3_client=web3,
+                contract_address=bridge_contract,
+                function_name="bridgeSynth",
+                abi=bridge_abi,
+                account_address=account_address,
+                private_key=private_key,
+                function_args=(
+                    account_address,
+                    "0x7355534400000000000000000000000000000000000000000000000000000000",
+                    bridge_amount,
+                    "0x4c617965725a65726f0000000000000000000000000000000000000000000000",
+                    10106,
+                    False,
+                ),
+                lz_value=LZ_VALUE,
+            )
+            time.sleep(GENEREAL_SLEEP_TIMER)
 
         balance = web3.from_wei(web3.eth.get_balance(account_address), "ether")
         diff = initial_balance - balance
