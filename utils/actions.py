@@ -47,7 +47,7 @@ def build_and_send_transaction(
     account_address: str,
     private_key: str,
     function_args: tuple,
-    scan_url: str = "https://sepolia.arbiscan.io/tx/",
+    scan_url: str = "https://dashboard.tenderly.co/tx/arbitrum-sepolia/",
     gas: int = DEFAULT_GAS,
     gas_price: int = DEFAULT_GAS_PRICE,
     lz_value: float = 0,
