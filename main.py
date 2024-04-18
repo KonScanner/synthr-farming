@@ -29,6 +29,7 @@ if __name__ == "__main__":
     bridge_contract = "0x2F1673beD3E85219E2B01BC988ABCc482261c38c"
     eth_usd_chainlink_feed = "0xd30e2101a97dcbAeBCBC04F14C3f624E67A35165"
     main_abi = read_abi(f"./abis/{main_contract_address}.json")
+    faucet_abi = read_abi(f"./abis/{faucet_address}.json")
     chainlink_abi = read_abi(f"./abis/{eth_usd_chainlink_feed}.json")
     bridge_abi = read_abi(f"./abis/{bridge_contract}.json")
 
@@ -44,12 +45,11 @@ if __name__ == "__main__":
         )  # Faucet amount to extract
 
         # Synthr Faucet extract tokens
-        abi = read_abi(f"./abis/{faucet_address}.json")
         build_and_send_transaction(
             web3_client=web3,
             contract_address=Web3.to_checksum_address(faucet_address),
             function_name="faucetToken",
-            abi=abi,
+            abi=faucet_abi,
             account_address=account_address,
             private_key=private_key,
             function_args=(synthr_faucet_token_amount,),
@@ -61,7 +61,7 @@ if __name__ == "__main__":
             web3_client=web3,
             contract_address=faucet_address,
             function_name="approve",
-            abi=abi,
+            abi=faucet_abi,
             account_address=account_address,
             private_key=private_key,
             function_args=(
